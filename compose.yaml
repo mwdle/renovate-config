@@ -5,6 +5,8 @@ services:
     container_name: Renovate
     restart: no
     hostname: renovate
+    networks:
+      Renovate:
     environment:
       RENOVATE_PLATFORM: gitea
       RENOVATE_ENDPOINT: https://${GITEA_HOSTNAME}/api/v1
@@ -12,3 +14,7 @@ services:
       RENOVATE_AUTODISCOVER: true
       RENOVATE_AUTODISCOVER_FILTER: ${GITEA_ORG}/*
       RENOVATE_ONBOARDING_CONFIG: '{"extends": ["local>${GITEA_ORG}/renovate-config"]}'
+
+networks:
+  Renovate:
+    external: true

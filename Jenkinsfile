@@ -15,8 +15,11 @@
  *   Example: 'H 6,18 * * *' runs the job twice daily (around 6 AM and 6 PM),
  *   where 'H' distributes load by picking a consistent hashed minute.
  *
+ * - defaultDetached:
+ *
  */
 dockerComposePipeline(
     envFileCredentialIds: ['renovate-config.env'],
-    cronSchedule: 'H 6,18 * * *'
+    cronSchedule: 'H 6,18 * * *',
+    defaultDetached: false
 )
