@@ -3,7 +3,7 @@ services:
   Renovate:
     image: renovate/renovate:43.78@sha256:2b5f86824eee0ac871efb527febe7222283ff05f1a1701092af9d178cad32580
     container_name: Renovate
-    restart: never
+    restart: no
     hostname: renovate
     environment:
       RENOVATE_PLATFORM: gitea
