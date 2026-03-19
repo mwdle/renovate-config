@@ -1,0 +1,14 @@
+name: Renovate
+services:
+  Renovate:
+    image: renovate/renovate:43.78@sha256:2b5f86824eee0ac871efb527febe7222283ff05f1a1701092af9d178cad32580
+    container_name: Renovate
+    restart: never
+    hostname: renovate
+    environment:
+      RENOVATE_PLATFORM: gitea
+      RENOVATE_ENDPOINT: https://${GITEA_HOSTNAME}/api/v1
+      RENOVATE_TOKEN: ${GITEA_PAT}
+      RENOVATE_AUTODISCOVER: true
+      RENOVATE_AUTODISCOVER_FILTER: ${GITEA_ORG}/*
+      RENOVATE_ONBOARDING_CONFIG: '{"extends": ["local>${GITEA_ORG}/renovate-config"]}'

@@ -1,0 +1,17 @@
+{
+  "extends": ["config:recommended", "docker:pinDigests"],
+  "prHourlyLimit": 3,
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "minimumReleaseAge": "1 days",
+      "minimumReleaseAgeBehaviour": "timestamp-optional",
+      "internalChecksFilter": "strict"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "3 days",
+      "internalChecksFilter": "strict"
+    }
+  ]
+}
