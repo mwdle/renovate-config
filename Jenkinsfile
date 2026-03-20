@@ -16,6 +16,9 @@
  *   where 'H' distributes load by picking a consistent hashed minute.
  *
  * - defaultDetached:
+ *   Controls whether services run in the background (detached mode).
+ *   Set to `false` here so Renovate runs in the foreground, streaming logs directly
+ *   to the build output and propagating its exit code to Jenkins.
  *
  */
 dockerComposePipeline(
