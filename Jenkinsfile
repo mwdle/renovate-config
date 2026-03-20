@@ -24,5 +24,6 @@
 dockerComposePipeline(
     envFileCredentialIds: ['renovate-config.env'],
     cronSchedule: 'H 6,18 * * *',
-    defaultDetached: false
+    defaultDetached: false,
+    disableConcurrentBuilds: true
 )
