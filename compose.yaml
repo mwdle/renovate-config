@@ -7,6 +7,8 @@ services:
     hostname: renovate
     networks:
       Renovate:
+    volumes:
+      - Renovate:/tmp/renovate/cache
     environment:
       RENOVATE_PLATFORM: gitea
       RENOVATE_ENDPOINT: https://${GITEA_HOSTNAME}/api/v1
@@ -18,3 +20,6 @@ services:
 networks:
   Renovate:
     external: true
+
+volumes:
+  Renovate:
