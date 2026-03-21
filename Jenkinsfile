@@ -10,10 +10,8 @@ pipeline {
                 [defaultValue: '', key: 'GIT_REPO', regexpFilter: '', value: '$.repository.full_name'],
                 [defaultValue: '', key: 'GIT_SENDER', regexpFilter: '', value: '$.sender.login']
             ],
-            printContributedVariables: true,
             regexpFilterExpression: '^(?!renovatebot$).*',
             regexpFilterText: '$GIT_SENDER',
-            silentResponse: true,
             token: '', tokenCredentialId: 'Renovate Webhook Token'
         )
     }
