@@ -1,6 +1,9 @@
 pipeline {
     agent { label 'docker' }
-    options { disableConcurrentBuilds() }
+    options {
+        disableConcurrentBuilds()
+        overrideIndexTriggers(false)
+    }
 
     triggers {
         cron('@hourly')
