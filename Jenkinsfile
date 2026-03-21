@@ -18,6 +18,10 @@ pipeline {
 
     stages {
         stage('Run Renovate') {
+            when {
+                // Run main only so Jenkins doesn't build Renovate repo PRs and spawn concurrent Renovate instances
+                branch 'main'
+            }
             steps {
                 withCredentials([file(credentialsId: 'renovate-config.env', variable: 'COMPOSE_ENV')]) {
                     sh 'docker compose --env-file $COMPOSE_ENV up --abort-on-container-exit'
