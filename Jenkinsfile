@@ -20,6 +20,7 @@ dockerComposePipeline(
             ],
             regexpFilterExpression: '^(?!renovatebot$).*',
             regexpFilterText: '$GIT_SENDER',
+            silentResponse: true,
             token: '', tokenCredentialId: 'Renovate Webhook Token'
         ]
     ]
