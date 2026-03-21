@@ -1,13 +1,18 @@
-pipeline {
-    agent { label 'docker' }
-    options {
-        disableConcurrentBuilds()
-        overrideIndexTriggers(false)
-    }
+@Library('JenkinsPipelines') _
 
-    triggers {
-        cron('@hourly')
-        GenericTrigger(
+/*
+ * This Docker Compose deployment is managed by the `dockerComposePipeline` defined in the
+ * Jenkins Pipelines shared library (https://github.com/mwdle/JenkinsPipelines).
+ */
+dockerComposePipeline(
+    envFileCredentialIds: ['renovate-config.env'],
+    disableConcurrentBuilds: true,
+    defaultDetached: false,
+    alertEmail: "${env.ALERT_EMAIL}",
+    disableIndexTriggers: true,
+    cronSchedule: '@hourly',
+    additionalTriggers: [
+        [$class: 'GenericTrigger',
             causeString: 'Triggered by Git server webhook',
             genericVariables: [
                 [defaultValue: '', key: 'GIT_REPO', regexpFilter: '', value: '$.repository.full_name'],
@@ -16,28 +21,6 @@ pipeline {
             regexpFilterExpression: '^(?!renovatebot$).*',
             regexpFilterText: '$GIT_SENDER',
             token: '', tokenCredentialId: 'Renovate Webhook Token'
-        )
-    }
-
-    stages {
-        stage('Run Renovate') {
-            when {
-                // Run main only so Jenkins doesn't build Renovate repo PRs and spawn concurrent Renovate instances
-                branch 'main'
-            }
-            steps {
-                withCredentials([file(credentialsId: 'renovate-config.env', variable: 'COMPOSE_ENV')]) {
-                    sh 'docker compose --env-file $COMPOSE_ENV up --abort-on-container-exit'
-                }
-            }
-        }
-    }
-
-    post {
-        failure {
-            mail to: "${env.ALERT_EMAIL}",
-                 subject: "🚨 Renovate Bot Failure - Build #${env.BUILD_NUMBER}",
-                 body: "Renovate Bot failed!\n\nCheck Jenkins logs here: ${env.BUILD_URL}"
-        }
-    }
-}
+        ]
+    ]
+)
