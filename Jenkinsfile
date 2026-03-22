@@ -1,9 +1,5 @@
-@Library('JenkinsPipelines') _
+@Library('JenkinsPipelines') _ // See https://github.com/mwdle/JenkinsPipelines
 
-/*
- * This Docker Compose deployment is managed by the `dockerComposePipeline` defined in the
- * Jenkins Pipelines shared library (https://github.com/mwdle/JenkinsPipelines).
- */
 dockerComposePipeline(
     envFileCredentialIds: ['renovate-config.env'],
     disableConcurrentBuilds: true,
