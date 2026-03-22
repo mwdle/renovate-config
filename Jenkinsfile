@@ -8,6 +8,7 @@ dockerComposePipeline(
     disableIndexTriggers: true,
     cronSchedule: '@hourly',
     additionalTriggers: [
+        // Requires Jenkins Controller to have Generic Webhook Trigger plugin installed
         [$class: 'GenericTrigger',
             causeString: 'Triggered by Git server webhook',
             genericVariables: [
