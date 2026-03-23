@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboardHeader": "### 🔄 Manual Trigger\n- [ ] Check this box to force Renovate to rescan this repository.\n\n---",
   "extends": ["config:recommended", "docker:pinDigests", ":rebaseStalePrs"],
   "packageRules": [
     {
