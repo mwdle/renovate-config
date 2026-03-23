@@ -6,6 +6,7 @@ dockerComposePipeline(
     defaultDetached: false,
     alertEmail: "${env.ALERT_EMAIL}",
     disableIndexTriggers: true,
+    quietPeriod: 0,
     cronSchedule: '@hourly',
     additionalTriggers: [
         // Requires Jenkins Controller to have Generic Webhook Trigger plugin installed
