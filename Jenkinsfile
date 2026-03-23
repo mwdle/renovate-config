@@ -1,16 +1,14 @@
 @Library('JenkinsPipelines') _ // See https://github.com/mwdle/JenkinsPipelines
 
-dockerComposePipeline(
-    envFileCredentialIds: ['renovate-config.env'],
-    disableConcurrentBuilds: true,
-    defaultDetached: false,
-    alertEmail: "${env.ALERT_EMAIL}",
-    disableIndexTriggers: true,
-    quietPeriod: 0,
-    cronSchedule: '@hourly',
-    additionalTriggers: [
-        // Requires Jenkins Controller to have Generic Webhook Trigger plugin installed
-        [$class: 'GenericTrigger',
+def isMainBranch = (env.BRANCH_NAME == 'main')
+
+// Only set a schedule if we are on main
+def schedule = isMainBranch ? '@hourly' : ''
+
+// Only define the Webhook trigger if we are on main
+def branchTriggers = []
+if (isMainBranch) {
+    branchTriggers.add([$class: 'GenericTrigger',
             causeString: 'Triggered by Git server webhook',
             genericVariables: [
                 [defaultValue: '', key: 'GIT_REPO', regexpFilter: '', value: '$.repository.full_name'],
@@ -20,6 +18,16 @@ dockerComposePipeline(
             regexpFilterText: '$GIT_SENDER',
             silentResponse: true,
             token: '', tokenCredentialId: 'Renovate Webhook Token'
-        ]
-    ]
+        ])
+}
+
+dockerComposePipeline(
+    envFileCredentialIds: ['renovate-config.env'],
+    disableConcurrentBuilds: true,
+    defaultDetached: false,
+    alertEmail: "${env.ALERT_EMAIL}",
+    disableIndexTriggers: true,
+    quietPeriod: 0,
+    cronSchedule: schedule,
+    additionalTriggers: branchTriggers
 )
