@@ -18,6 +18,10 @@ services:
       RENOVATE_ONBOARDING_CONFIG: '{"extends": ["local>${GITEA_ORG}/renovate-config"]}'
       RENOVATE_GITHUB_COM_TOKEN: ${GITHUB_TOKEN}
 
+    user: "${UID}:${GID}"
+    security_opt:
+      - no-new-privileges:true
+
 networks:
   Renovate:
     external: true

@@ -23,7 +23,7 @@ if (isMainBranch) {
 }
 
 dockerComposePipeline(
-    envFileCredentialIds: ['renovate-config.env'],
+    envFileCredentialIds: ['common.env', 'renovate-config.env'],
     disableConcurrentBuilds: true,
     defaultDetached: false,
     alertEmail: "${env.ALERT_EMAIL}",
