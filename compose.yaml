@@ -19,8 +19,21 @@ services:
       RENOVATE_GITHUB_COM_TOKEN: ${GITHUB_TOKEN}
 
     user: "${UID}:${GID}"
+    read_only: true
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+    logging:
+      driver: journald
+
+    deploy:
+      resources:
+        limits:
+          cpus: 1.5
+          memory: 2GB
+          pids: 50
 
 networks:
   Renovate:
