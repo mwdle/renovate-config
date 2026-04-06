@@ -3,7 +3,7 @@
 def isMainBranch = env.BRANCH_NAME == 'main'
 
 // Only set a schedule if we are on main
-def schedule = isMainBranch ? '@hourly' : null
+def schedule = isMainBranch ? 'H H/6 * * *' : null
 
 // Only define the Webhook trigger if we are on main
 def branchTriggers = []
