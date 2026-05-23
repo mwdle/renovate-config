@@ -1,6 +1,6 @@
 # Renovate Bot Docker Compose Configuration
 
-This repository contains the Docker Compose configuration and Jenkins pipeline to run Renovate Bot as a scheduled automated job. It scans our internal Gitea repositories and creates Pull Requests for dependency updates based on our centralized configuration rules.
+This repository contains the Docker Compose configuration and Jenkins pipeline to run Renovate Bot as a scheduled automated job. It scans our internal git server repositories and creates Pull Requests for dependency updates based on our centralized configuration rules.
 
 ## Table of Contents
 
@@ -11,8 +11,8 @@ This repository contains the Docker Compose configuration and Jenkins pipeline t
 
 ## Getting Started
 
-1. **Credentials:** Create a Jenkins 'Secret file' credential named `renovate-config.env` (use `.env.example` as a template) containing your Gitea hostname, organization, and Personal Access Token (PAT).
-2. **Central Config:** Ensure the `renovate-config` repository exists in your Gitea organization with a valid `default.json` rule set.
+1. **Credentials:** Create a Jenkins 'Secret file' credential named `renovate-config.env` (use `.env.example` as a template) containing your git server hostname, organization, and Personal Access Token (PAT).
+2. **Central Config:** Ensure the `renovate-config` repository exists in your git server organization with a valid `default.json` rule set.
 3. **Execution:** The pipeline runs automatically on the cron schedule defined in the `Jenkinsfile`. You can also trigger it manually from the Jenkins UI.
 
 ## License
