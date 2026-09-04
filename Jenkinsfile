@@ -12,8 +12,8 @@ if (isMainBranch) {
         $class: 'GenericTrigger',
         causeString: 'Triggered by Git server webhook',
         genericVariables: [
-            [defaultValue: '', key: 'GIT_REPO', regexpFilter: '', value: '$.repository.full_name'],
-            [defaultValue: '', key: 'GIT_SENDER', regexpFilter: '', value: '$.sender.login']
+            [key: 'GIT_REPO', regexpFilter: '', value: '$.repository.full_name'],
+            [key: 'GIT_SENDER', regexpFilter: '', value: '$.sender.login']
         ],
         regexpFilterExpression: '^(?!renovatebot$).*',
         regexpFilterText: '$GIT_SENDER',
