@@ -10,6 +10,7 @@
   "osvVulnerabilityAlerts": true,
   "dependencyDashboardHeader": "### 🔄 Manual Trigger\n- [ ] Check this box to force Renovate to rescan this repository.\n\n---",
   "gitAuthor": "renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+  "lockFileMaintenance": { "enabled": true },
   "packageRules": [
     {
       "matchDatasources": ["docker"],
