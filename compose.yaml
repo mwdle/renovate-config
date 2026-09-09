@@ -18,6 +18,7 @@ services:
       RENOVATE_AUTODISCOVER_FILTER: ${GIT_REPO:-${GIT_SERVER_ORG}/*}
       RENOVATE_ONBOARDING_CONFIG: '{"extends": ["local>${GIT_SERVER_ORG}/renovate-config"]}'
       RENOVATE_GITHUB_COM_TOKEN: ${GITHUB_TOKEN}
+      RENOVATE_TIMEZONE: ${TZ}
 
     user: "${UID}:${GID}"
     read_only: true
