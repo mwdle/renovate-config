@@ -1,7 +1,7 @@
 name: Renovate
 services:
   Renovate:
-    image: renovate/renovate:44.104-full@sha256:0729fb6eba240a126aed4c22084c69b11c2ffac1c5f210d531d047fd337a6e53
+    image: renovate/renovate:44.149-full@sha256:6e5f719e09ae1e5a26ff39597984ef38cd60c938fe3f008ac62015ffb2b9ccaa
     container_name: Renovate
     restart: no
     hostname: renovate
