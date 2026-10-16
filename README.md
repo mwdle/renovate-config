@@ -1,24 +1,21 @@
-# Renovate Bot Docker Compose Configuration
+# Renovate Configuration
 
-This repository contains the Docker Compose configuration and Jenkins pipeline to run Renovate Bot as a scheduled automated job. It scans our internal git server repositories and creates Pull Requests for dependency updates based on our centralized configuration rules.
+This repository provides the shared Renovate preset and the Jenkins job that runs Renovate against Forgejo repositories.
 
-## Table of Contents
+## How It Works
 
-- [Description](#renovate-bot-docker-compose-configuration)
-- [Getting Started](#getting-started)
-- [License](#license)
-- [Disclaimer](#disclaimer)
+The Jenkins organization-folder job runs Renovate as a one-shot container through the nested rootless Podman service. It runs hourly on `main`, can be started manually, and accepts Forgejo webhooks for targeted repository scans. Webhooks created by `renovatebot` are ignored to prevent trigger loops.
 
-## Getting Started
+Jenkins pulls the digest-pinned Renovate image and runs it read-only with dropped capabilities, bounded resources, a temporary `/tmp`, and persistent named volumes for its cache and checked-out repositories. The container is removed when the run finishes.
 
-1. **Credentials:** Create a Jenkins 'Secret file' credential named `renovate-config.env` (use `.env.example` as a template) containing your git server hostname, organization, and Personal Access Token (PAT).
-2. **Central Config:** Ensure the `renovate-config` repository exists in your git server organization with a valid `default.json` rule set.
-3. **Execution:** The pipeline runs automatically on the cron schedule defined in the `Jenkinsfile`. You can also trigger it manually from the Jenkins UI.
+## Credentials
+
+Configure these Jenkins Secret text credentials:
+
+- `renovate-token`
+- `renovate-github-com-token`
+- `Renovate Webhook Token` (used for the Generic Webhook Trigger)
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Disclaimer
-
-This repository is provided as-is and is intended for informational and reference purposes only. The author assumes no responsibility for any errors or omissions in the content or for any consequences that may arise from the use of the information provided. Always exercise caution and seek professional advice if necessary.
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
