@@ -37,9 +37,9 @@ pipeline {
                         podman-remote run --rm \
                             --read-only \
                             --tmpfs /tmp \
-                            --volume renovate-cache:/tmp/renovate/cache:U,Z \
-                            --volume renovate-repos:/tmp/renovate/repos:U,Z \
-                            --userns=auto \
+                            --volume renovate-cache:/tmp/renovate/cache:Z \
+                            --volume renovate-repos:/tmp/renovate/repos:Z \
+                            --userns=nomap \
                             --security-opt no-new-privileges \
                             --cap-drop ALL \
                             --cpus 1.5 \
