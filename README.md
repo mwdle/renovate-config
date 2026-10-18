@@ -14,7 +14,7 @@ Configure these Jenkins Secret text credentials:
 
 - `renovate-token`
 - `renovate-github-com-token`
-- `Renovate Webhook Token` (used for the Generic Webhook Trigger)
+- `renovate-webhook-token` (used for the Generic Webhook Trigger)
 
 ## License
 
