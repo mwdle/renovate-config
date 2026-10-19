@@ -53,7 +53,7 @@ pipeline {
                             --env "RENOVATE_TIMEZONE=${TZ}" \
                             --env RENOVATE_TOKEN \
                             --env RENOVATE_GITHUB_COM_TOKEN \
-                            docker.io/renovate/renovate:44.167-full@sha256:9d90dc211443bc0c7a821198fbd0e7312e094bec058eb55f23508233d7edb179
+                            docker.io/renovate/renovate:44.167.5@sha256:c33150ec6407624a9399a2d827fd125becafdbe4519d7584488cbdd17f99081e
                     '''
                 }
             }
