@@ -30,29 +30,29 @@ pipeline {
         stage('Run Renovate') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'renovate-token', variable: 'RENOVATE_TOKEN'),
-                    string(credentialsId: 'renovate-github-com-token', variable: 'RENOVATE_GITHUB_COM_TOKEN')
+                    string(credentialsId: 'renovate-github-com-token', variable: 'RENOVATE_GITHUB_COM_TOKEN'),
+                    string(credentialsId: 'renovate-token', variable: 'RENOVATE_TOKEN')
                 ]) {
                     sh '''
                         podman-remote run --rm \
-                            --read-only \
-                            --tmpfs /tmp \
+                            --env RENOVATE_AUTODISCOVER=true \
+                            --env "RENOVATE_AUTODISCOVER_FILTER=${GIT_REPO:-lab/*}" \
+                            --env RENOVATE_ENDPOINT=https://git.mwdle.com/api/v1 \
+                            --env RENOVATE_GITHUB_COM_TOKEN \
+                            --env 'RENOVATE_ONBOARDING_CONFIG={"extends":["local>lab/renovate-config"]}' \
+                            --env RENOVATE_PLATFORM=forgejo \
+                            --env "RENOVATE_TIMEZONE=${TZ}" \
+                            --env RENOVATE_TOKEN \
                             --volume renovate-cache:/tmp/renovate/cache:Z \
                             --volume renovate-repos:/tmp/renovate/repos:Z \
+                            --read-only \
+                            --tmpfs /tmp \
                             --userns=nomap \
                             --security-opt no-new-privileges \
                             --cap-drop ALL \
-                            --cpus 1.5 \
                             --memory 2g \
                             --pids-limit 50 \
-                            --env RENOVATE_PLATFORM=forgejo \
-                            --env RENOVATE_ENDPOINT=https://git.mwdle.com/api/v1 \
-                            --env RENOVATE_AUTODISCOVER=true \
-                            --env "RENOVATE_AUTODISCOVER_FILTER=${GIT_REPO:-lab/*}" \
-                            --env 'RENOVATE_ONBOARDING_CONFIG={"extends":["local>lab/renovate-config"]}' \
-                            --env "RENOVATE_TIMEZONE=${TZ}" \
-                            --env RENOVATE_TOKEN \
-                            --env RENOVATE_GITHUB_COM_TOKEN \
+                            --cpus 1.5 \
                             docker.io/renovate/renovate:44.167.5@sha256:c33150ec6407624a9399a2d827fd125becafdbe4519d7584488cbdd17f99081e
                     '''
                 }
