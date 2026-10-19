@@ -1,9 +1,5 @@
-String cronSchedule = env.BRANCH_NAME == 'main' ? 'H H * * *' : ''
-
 pipeline {
-    agent {
-        label 'podman'
-    }
+    agent none
 
     options {
         disableConcurrentBuilds()
@@ -11,7 +7,7 @@ pipeline {
     }
 
     triggers {
-        cron(cronSchedule)
+        cron('H H * * *')
         GenericTrigger(
             causeString: 'Triggered by Git server webhook',
             genericVariables: [
@@ -28,6 +24,13 @@ pipeline {
 
     stages {
         stage('Run Renovate') {
+            agent {
+                label 'podman'
+            }
+            when {
+                beforeAgent true
+                branch "main"
+            }
             steps {
                 withCredentials([
                     string(credentialsId: 'renovate-github-com-token', variable: 'RENOVATE_GITHUB_COM_TOKEN'),
@@ -57,6 +60,11 @@ pipeline {
                     '''
                 }
             }
+            post {
+                cleanup {
+                    cleanWs(deleteDirs: true, disableDeferredWipeout: true)
+                }
+            }
         }
     }
 
@@ -71,9 +79,6 @@ pipeline {
                     )
                 }
             }
-        }
-        cleanup {
-            cleanWs(deleteDirs: true, disableDeferredWipeout: true)
         }
     }
 }
