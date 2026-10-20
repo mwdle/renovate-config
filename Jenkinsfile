@@ -49,7 +49,7 @@ pipeline {
                             --volume renovate-cache:/tmp/renovate/cache:Z \
                             --volume renovate-repos:/tmp/renovate/repos:Z \
                             --read-only \
-                            --tmpfs /tmp \
+                            --tmpfs /tmp:noexec,nosuid \
                             --userns=nomap \
                             --security-opt no-new-privileges \
                             --cap-drop ALL \
