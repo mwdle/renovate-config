@@ -34,27 +34,30 @@ pipeline {
             steps {
                 withCredentials([
                     string(credentialsId: 'renovate-github-com-token', variable: 'RENOVATE_GITHUB_COM_TOKEN'),
-                    string(credentialsId: 'renovate-token', variable: 'RENOVATE_TOKEN')
+                    string(credentialsId: 'renovate-token', variable: 'RENOVATE_TOKEN'),
+                    usernamePassword(credentialsId: 'renovate-docker-pat', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')
                 ]) {
                     sh '''
+                        export RENOVATE_HOST_RULES='[{"hostType":"docker","matchHost":"docker.io","username":"'"$DOCKER_USERNAME"'","password":"'"$DOCKER_PASSWORD"'"}]'  
                         podman-remote run --rm \
                             --env RENOVATE_AUTODISCOVER=true \
                             --env "RENOVATE_AUTODISCOVER_FILTER=${GIT_REPO:-lab/*}" \
                             --env RENOVATE_ENDPOINT=https://git.mwdle.com/api/v1 \
                             --env RENOVATE_GITHUB_COM_TOKEN \
+                            --env RENOVATE_HOST_RULES \
                             --env 'RENOVATE_ONBOARDING_CONFIG={"extends":["local>lab/renovate-config"]}' \
                             --env RENOVATE_PLATFORM=forgejo \
-                            --env "RENOVATE_TIMEZONE=${TZ}" \
                             --env RENOVATE_TOKEN \
-                            --volume renovate-cache:/tmp/renovate/cache:Z \
-                            --volume renovate-repos:/tmp/renovate/repos:Z \
+                            --volume /opt/containerbase \
+                            --volume renovate-cache:/tmp/renovate/cache:U,Z \
+                            --volume renovate-repos:/tmp/renovate/repos:U,Z \
                             --read-only \
                             --tmpfs /tmp:noexec,nosuid \
                             --userns=nomap \
                             --security-opt no-new-privileges \
                             --cap-drop ALL \
                             --memory 2g \
-                            --pids-limit 50 \
+                            --pids-limit 256 \
                             --cpus 1.5 \
                             docker.io/renovate/renovate:44.167.5@sha256:c33150ec6407624a9399a2d827fd125becafdbe4519d7584488cbdd17f99081e
                     '''
