@@ -60,7 +60,7 @@ pipeline {
                             --memory 2g \
                             --pids-limit 256 \
                             --cpus 1.5 \
-                            docker.io/renovate/renovate:44.222.5@sha256:8a4c49ef19bb71bedf4eaa4d1087a31a1793bd53de41478753d2d648e53eed19
+                            docker.io/renovate/renovate:44.227.4@sha256:fe058db9710840a4821f20190b3769e3ce709a049b8640aa2bf5f044969fe702
                     '''
                 }
             }
