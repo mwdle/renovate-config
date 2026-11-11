@@ -48,6 +48,7 @@ pipeline {
                             --env 'RENOVATE_ONBOARDING_CONFIG={"extends":["local>lab/renovate-config"]}' \
                             --env RENOVATE_PLATFORM=forgejo \
                             --env RENOVATE_TOKEN \
+                            --env RENOVATE_USE_CLOUD_METADATA_SERVICES=false \
                             --volume /opt/containerbase \
                             --volume renovate-cache:/tmp/renovate/cache:U,Z \
                             --volume renovate-repos:/tmp/renovate/repos:U,Z \
