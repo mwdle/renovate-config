@@ -1,9 +1,10 @@
 pipeline {
-    agent none
+    agent {
+        label 'podman'
+    }
 
     options {
         disableConcurrentBuilds()
-        overrideIndexTriggers(false)
     }
 
     triggers {
@@ -24,13 +25,6 @@ pipeline {
 
     stages {
         stage('Run Renovate') {
-            agent {
-                label 'podman'
-            }
-            when {
-                beforeAgent true
-                branch "main"
-            }
             steps {
                 withCredentials([
                     string(credentialsId: 'renovate-github-com-token', variable: 'RENOVATE_GITHUB_COM_TOKEN'),
